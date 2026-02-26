@@ -180,6 +180,16 @@ The LLM only sees the retrieved chunks as its information source. It cannot conf
 Prompt structure:
 
 
+```
+You are a helpful assistant for NovaBite Restaurants.
+Answer the customer's question using ONLY the context below.
+If the answer is not in the context, say "I don't have that information, please contact the restaurant."
+
+Context: {retrieved chunks}
+Chat history: {last N turns}
+Customer: {question}
+Answer:
+```
 
 ---
 

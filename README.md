@@ -67,7 +67,7 @@ novabite_multi_agent/
 User Message
      |
      v
-intent_classifier       <- LLM call: returns rag / ops / greeting / farewell
+intent_classifier       <- LLM call: returns rag / ops / farewell
      |
      v
 orchestrator            <- loads memory, routes message, saves response to memory

@@ -225,19 +225,19 @@ The RAG agent converts history to a plain string for the prompt. The operations 
 ```
 You:       Do you have vegan pasta?
 [Intent:   rag]
-Assistant: Yes, we have Vegan Green Pasta, which is spinach-based and includes roasted zucchini, bell peppers, mushrooms, and cashew cream sauce. It is 100% plant-based and has a gluten-free option available upon request. The price is 230 EGP.
+Assistant: Yes, we have Vegan Garden Pasta, which is whole wheat penne with zucchini, cherry tomatoes, mushrooms, spinach, and garlic olive oil. It is sautéed and contains no dairy. The price is $14.99, and it is available at all branches.
 ```
 
 ```
 You:       Is the chicken grilled or fried?
 [Intent:   rag]
-Assistant: The chicken is grilled, not fried.
+Assistant: The NovaBite Signature Grilled Chicken is grilled, while the Crispy Fried Chicken Platter is deep-fried.
 ```
 
 ```
 You:       What are your opening hours on weekends?
 [Intent:   rag]
-Assistant: On weekends, NovaBite is open from 10:00 AM to 1:00 AM.
+Assistant: On weekends (Saturday-Sunday), our opening hours are Brunch from 10am-3pm and Dinner from 5pm-11:30pm.
 ```
 
 ```
@@ -248,25 +248,38 @@ Assistant: Yes, NovaBite offers private event hosting for birthday parties.
 
 ```
 You:       What’s included in the premium catering package?
-[Intent:   ops]
-Assistant: The premium catering package includes a custom 3-course menu, dedicated service staff, a dessert platter, and a beverage selection. The price starts from 850 EGP per person.
+[Intent:   rag]
+Assistant: The Premium Catering Package includes:
+
+3 main dishes
+2 appetizers
+2 desserts
+Beverage package
+Dedicated event coordinator
+Please note that the minimum booking is for 20 guests.
 ```
 
 ```
 You:       I want to book a table on 1/3
 [Intent:   ops]
-Assistant: Please provide the following details to complete your booking for a table on March 1st:
+Assistant: Could you please provide the time you would like to book the table for and the branch you wish to visit? Additionally, let me know the party size if it's different from the default of 2.
+You: 19.00, at downtown, for 7 persons
+[Intent:   ops]
+Assistant: Your table has been successfully booked! Here are the details:
 
-Time of the booking
-Branch location
-Party size (default is 2 if not specified)
+Branch: NovaBite Downtown
+Date: January 3, 2023
+Time: 19:00
+Party Size: 7
+Booking ID: NB-1001
+If you need any further assistance, feel free to ask!
 ```
 
 **Hallucination guard**
 ```
 You:       do you serve sushi?
 [Intent:   rag]
-Assistant: I don't have that information, please contact the restaurant.
+Assistant: We don't offer sushi, but we do have a variety of other delicious dishes, including our NovaBite Signature Grilled Chicken and Lemon Butter Grilled Salmon. Let me know if you'd like more information about our menu!
 ```
 
 

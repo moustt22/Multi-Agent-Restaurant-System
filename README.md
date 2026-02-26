@@ -1,5 +1,6 @@
 # NovaBite AI Restaurant Assistant
 ### Multi-Agent RAG System
+NovaBite AI Assistant helps customers get instant answers about the restaurant and take action — all in one conversation. Ask about the menu, opening hours, events, or loyalty points. Check table availability and make reservations. The assistant only answers from verified restaurant information, so customers always get accurate, reliable responses.
 
 ---
 

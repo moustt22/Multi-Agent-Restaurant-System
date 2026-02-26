@@ -8,21 +8,22 @@ prompt = ChatPromptTemplate.from_template("""
 You are a router for a restaurant assistant.
 Given the conversation history and the latest user message, reply with ONLY one word — the correct route:
 
-- "rag"      -> user is asking about menu, food, allergens, hours, policies, events, loyalty program info
-- "ops"      -> user wants to check table availability, book a table, see today's specials, or check loyalty points
-- "greeting" -> user is saying hello or starting a conversation
+- "rag"      -> user is asking about menu items, food descriptions, allergens, opening hours, policies, events, loyalty program rules
+- "ops"      -> user wants to: check table availability, book a table, see today's special dish, check loyalty points balance
 - "farewell" -> user is saying bye or ending the conversation
 
-Important: if the user message is a short reply like "yes", "yes please", "go ahead", "sure", "ok", "book it"
-and the conversation history shows they were just discussing a booking or availability,
-classify it as "ops".
+Routing rules:
+- "today's special", "special dish", "what's special today", "daily special" → always "ops"
+- "yes", "yes please", "sure", "go ahead", "book it", "ok" after a booking discussion → "ops"
+- Questions about what food exists on the menu → "rag"
+- Questions about opening hours, policies, allergens → "rag"
 
 Conversation history:
 {history}
 
 Latest user message: {message}
 
-Reply with only one word (rag / ops / greeting / farewell):
+Reply with only one word (rag / ops / farewell):
 """)
 
 chain = prompt | llm
@@ -31,7 +32,7 @@ def classify_intent(message: str, history: str = "") -> str:
     result = chain.invoke({"message": message, "history": history})
     intent = result.content.strip().lower()
 
-    if intent not in ["rag", "ops", "greeting", "farewell"]:
+    if intent not in ["rag", "ops", "farewell"]:
         return "rag"
 
     return intent

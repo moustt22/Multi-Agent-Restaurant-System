@@ -112,7 +112,7 @@ A LangGraph `create_react_agent` that has access to 4 tools. The LLM decides whi
 File: `rag/ingest.py`
 
 Steps:
-1. Load `novabite_docs.txt` using `TextLoader`
+1. Load `menu.txt` using `TextLoader`
 2. Split into chunks using `RecursiveCharacterTextSplitter`
 3. Embed each chunk using `text-embedding-3-small`
 4. Save all vectors to Chroma
@@ -302,17 +302,6 @@ evaluation_results.txt
 ```
 ---
 
-## Streamlit UI
-
-File: `app.py`
-
-A simple chat interface built with Streamlit. Uses `st.chat_message` and `st.chat_input` for the native chat layout. Message history is stored in `st.session_state` so the UI stays consistent across reruns.
-
-Run:
-```bash
-streamlit run app.py
-```
-
 
 ---
 
@@ -334,10 +323,18 @@ OPENAI_API_KEY=sk-or-v1-...
 OPENROUTER_MODEL=gpt-4o-mini
 ```
 
-**3. Run**
+### Streamlit UI
+
+File: `app.py`
+
+A simple chat interface built with Streamlit. Uses `st.chat_message` and `st.chat_input` for the native chat layout. Message history is stored in `st.session_state` so the UI stays consistent across reruns.
+
+Run:
 ```bash
-python app.py
+streamlit run app.py
 ```
+
+
 
 Ingestion runs automatically on first use. To manually re-ingest after updating the knowledge base:
 ```bash

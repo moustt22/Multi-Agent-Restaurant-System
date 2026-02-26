@@ -108,7 +108,6 @@ A LangGraph `create_react_agent` that has access to 4 tools. The LLM decides whi
 
 ### Document Ingestion Pipeline
 
-File: `rag/ingest.py`
 
 Steps:
 1. Load `menu.txt` using `TextLoader`

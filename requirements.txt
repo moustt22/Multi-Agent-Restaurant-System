@@ -8,3 +8,4 @@ langgraph
 chromadb
 openai
 python-dotenv
+streamlit

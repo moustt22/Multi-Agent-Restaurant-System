@@ -1,52 +1,59 @@
 ============================================================
 NovaBite RAG Evaluation — LLM-as-a-Judge
+Date: 2026-02-27 01:06:00
 ============================================================
 
 [1] Question:  Do you have vegan options?
-    Answer:    Yes, we have a Plant-Based Burger that is fully vegan. It includes a plant protein patty, vegan cheese, lettuce, and tomato, and is served with fries. The price is 250 EGP.
+    Answer:    Yes, we have several vegan options available. You can enjoy the Vegan Garden Pasta, which is whole wheat penne with zucchini, cherry tomatoes, mushrooms, spinach, and garlic olive oil for $14.99. We also offer the Chickpea Power Bowl, featuring roasted chickpeas, quinoa, avocado, kale, and tahini dressing for $13.75. For dessert, you can try the Vegan Coconut Pudding, which is coconut milk pudding topped with fresh mango for $7.00. All these dishes are available at all branches.
     Faithfulness: 5/5 — The answer is fully grounded in the retrieved context without any fabricated information.
     Relevance:    5/5 — The answer directly and completely addresses the customer's question about vegan options.
 
 [2] Question:  What are the opening hours on weekends?
-    Answer:    The opening hours on weekends (Friday & Saturday) are from 10:00 AM to 1:00 AM.
-    Faithfulness: 5/5 — The answer is fully grounded in the retrieved context regarding opening hours.
+    Answer:    On weekends (Saturday-Sunday), our opening hours are Brunch from 10am-3pm and Dinner from 5pm-11:30pm.
+    Faithfulness: 5/5 — The answer is fully grounded in the retrieved context without any fabricated information.
     Relevance:    5/5 — The answer directly and completely addresses the customer's question about weekend opening hours.
 
 [3] Question:  Is the chicken grilled or fried?
-    Answer:    The chicken is grilled, not fried.
-    Faithfulness: 5/5 — The answer is fully grounded in the context provided, stating that the chicken is grilled as mentioned in the preparation details.
+    Answer:    The Crispy Fried Chicken Platter is deep-fried.
+    Faithfulness: 5/5 — The answer is fully grounded in the context provided, specifically stating that the Crispy Fried Chicken Platter is deep-fried.
     Relevance:    5/5 — The answer directly addresses the customer's question about whether the chicken is grilled or fried.
 
 [4] Question:  Where are your branches?
-    Answer:    NovaBite Restaurants operates multiple premium casual dining branches including Downtown, Mall, and Marina.
-    Faithfulness: 5/5 — The answer is fully grounded in the context provided, listing the branches accurately without any fabrication.
-    Relevance:    5/5 — The answer directly addresses the customer's question about the locations of the branches.
+    Answer:    NovaBite operates three branches: Downtown, Marina, and Uptown.
+    Faithfulness: 5/5 — The answer is fully grounded in the context provided, listing only the branches mentioned.
+    Relevance:    5/5 — The answer directly and completely addresses the customer's question about the locations of the branches.
 
 [5] Question:  Do you host birthday events?
     Answer:    Yes, NovaBite offers private event hosting for birthday parties.
-    Faithfulness: 5/5 — The answer is fully grounded in the context provided about event hosting at NovaBite.
-    Relevance:    5/5 — The answer directly addresses the customer's inquiry about hosting birthday events.
+    Faithfulness: 5/5 — The answer is fully grounded in the context provided about event hosting.
+    Relevance:    5/5 — The answer directly addresses the customer's question about hosting birthday events.
 
 [6] Question:  What is included in the premium catering package?
-    Answer:    The Premium Catering Package includes a custom 3-course menu, dedicated service staff, a dessert platter, and a beverage selection. The price starts from 850 EGP per person.
+    Answer:    The Premium Catering Package includes:
+- 3 main dishes
+- 2 appetizers
+- 2 desserts
+- Beverage package
+- Dedicated event coordinator
+
+Please note that the minimum booking is for 20 guests.
     Faithfulness: 5/5 — The answer is fully grounded in the retrieved context without any fabricated information.
-    Relevance:    5/5 — The answer directly and completely addresses the customer's question about the premium catering package.
+    Relevance:    5/5 — The answer directly and completely addresses the customer's question about the contents of the premium catering package.
 
 [7] Question:  Do you have parking?
     Answer:    I don't have that information, please contact the restaurant.
-    Faithfulness: 5/5 — The answer does not fabricate any information and acknowledges the lack of specific details about parking.
-    Relevance:    1/5 — The answer does not address the customer's question about parking at all.
+    Faithfulness: 5/5 — The answer does not fabricate any information and is consistent with the retrieved context.
+    Relevance:    1/5 — The answer does not address the customer's question about parking at the restaurant.
 
 [8] Question:  Do you serve sushi?
-    Answer:    I don't have that information, please contact the restaurant.
-    Faithfulness: 5/5 — The answer does not fabricate any information and acknowledges the lack of specific details about sushi in the retrieved context.
-    Relevance:    1/5 — The answer does not address the customer's question about whether sushi is served.
+    Answer:    We don't offer sushi, but we do have a variety of other delicious options, including our Lemon Butter Grilled Salmon and Vegan Garden Pasta.
+    Faithfulness: 5/5 — The answer is fully grounded in the context provided, with no fabricated information.
+    Relevance:    5/5 — The answer directly addresses the customer's question about sushi and provides alternative options.
 
 ============================================================
 SUMMARY
 ============================================================
 Average Faithfulness : 5.0 / 5
-Average Relevance    : 4.0 / 5
-Overall Score        : 4.5 / 5
-
+Average Relevance    : 4.5 / 5
+Overall Score        : 4.8 / 5
 ============================================================

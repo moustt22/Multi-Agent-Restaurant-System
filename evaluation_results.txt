@@ -1,0 +1,52 @@
+============================================================
+NovaBite RAG Evaluation — LLM-as-a-Judge
+Date: 2026-02-26 20:42:01
+============================================================
+
+[1] Question:  Do you have vegan options?
+    Answer:    Yes, we have a Plant-Based Burger that is fully vegan. It includes a plant protein patty, vegan cheese, lettuce, and tomato, and is served with fries. The price is 250 EGP.
+    Faithfulness: 5/5 — The answer is fully grounded in the retrieved context without any fabricated information.
+    Relevance:    5/5 — The answer directly and completely addresses the customer's question about vegan options.
+
+[2] Question:  What are the opening hours on weekends?
+    Answer:    The opening hours on weekends (Friday & Saturday) are from 10:00 AM to 1:00 AM.
+    Faithfulness: 5/5 — The answer is fully grounded in the retrieved context regarding opening hours.
+    Relevance:    5/5 — The answer directly and completely addresses the customer's question about weekend opening hours.
+
+[3] Question:  Is the chicken grilled or fried?
+    Answer:    The chicken is grilled, not fried.
+    Faithfulness: 5/5 — The answer is fully grounded in the context provided, stating that the chicken is grilled as mentioned in the preparation details.
+    Relevance:    5/5 — The answer directly addresses the customer's question about whether the chicken is grilled or fried.
+
+[4] Question:  Where are your branches?
+    Answer:    NovaBite Restaurants operates multiple premium casual dining branches including Downtown, Mall, and Marina.
+    Faithfulness: 5/5 — The answer is fully grounded in the context provided, listing the branches accurately without any fabrication.
+    Relevance:    5/5 — The answer directly addresses the customer's question about the locations of the branches.
+
+[5] Question:  Do you host birthday events?
+    Answer:    Yes, NovaBite offers private event hosting for birthday parties.
+    Faithfulness: 5/5 — The answer is fully grounded in the context provided about event hosting at NovaBite.
+    Relevance:    5/5 — The answer directly addresses the customer's inquiry about hosting birthday events.
+
+[6] Question:  What is included in the premium catering package?
+    Answer:    The Premium Catering Package includes a custom 3-course menu, dedicated service staff, a dessert platter, and a beverage selection. The price starts from 850 EGP per person.
+    Faithfulness: 5/5 — The answer is fully grounded in the retrieved context without any fabricated information.
+    Relevance:    5/5 — The answer directly and completely addresses the customer's question about the premium catering package.
+
+[7] Question:  Do you have parking?
+    Answer:    I don't have that information, please contact the restaurant.
+    Faithfulness: 5/5 — The answer does not fabricate any information and acknowledges the lack of specific details about parking.
+    Relevance:    1/5 — The answer does not address the customer's question about parking at all.
+
+[8] Question:  Do you serve sushi?
+    Answer:    I don't have that information, please contact the restaurant.
+    Faithfulness: 5/5 — The answer does not fabricate any information and acknowledges the lack of specific details about sushi in the retrieved context.
+    Relevance:    1/5 — The answer does not address the customer's question about whether sushi is served.
+
+============================================================
+SUMMARY
+============================================================
+Average Faithfulness : 5.0 / 5
+Average Relevance    : 4.0 / 5
+Overall Score        : 4.5 / 5
+============================================================

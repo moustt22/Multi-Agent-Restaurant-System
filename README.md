@@ -276,7 +276,7 @@ You: 19.00, at downtown, for 7 persons
 Assistant: Your table has been successfully booked! Here are the details:
 
 Branch: NovaBite Downtown
-Date: January 3, 2023
+Date: March 1, 2026
 Time: 19:00
 Party Size: 7
 Booking ID: NB-1001
@@ -285,7 +285,7 @@ If you need any further assistance, feel free to ask!
 
 **Hallucination guard**
 ```
-You:       do you serve sushi?
+You:       Do you serve sushi?
 [Intent:   rag]
 Assistant: We don't offer sushi, but we do have a variety of other delicious dishes, including our NovaBite Signature Grilled Chicken and Lemon Butter Grilled Salmon. Let me know if you'd like more information about our menu!
 ```

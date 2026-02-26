@@ -1,6 +1,5 @@
 ============================================================
 NovaBite RAG Evaluation — LLM-as-a-Judge
-Date: 2026-02-26 20:42:01
 ============================================================
 
 [1] Question:  Do you have vegan options?
@@ -49,4 +48,5 @@ SUMMARY
 Average Faithfulness : 5.0 / 5
 Average Relevance    : 4.0 / 5
 Overall Score        : 4.5 / 5
+
 ============================================================

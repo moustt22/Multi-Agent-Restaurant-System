@@ -35,7 +35,6 @@ A central **Orchestrator** uses an LLM to classify the intent of each message an
 ```
 novabite_multi_agent/
 |
-|-- main.py                    # Entry point - starts the chat loop
 |-- config.py                  # All settings, API keys, shared LLM and embeddings
 |-- memory.py                  # Conversation memory using ChatMessageHistory
 |-- intent_classifier.py       # LLM-based intent routing

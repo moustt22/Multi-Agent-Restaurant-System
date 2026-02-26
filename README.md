@@ -1,6 +1,8 @@
 # NovaBite AI Restaurant Assistant
 ### Multi-Agent RAG System
-NovaBite AI Assistant helps customers get instant answers about the restaurant and take action — all in one conversation. Ask about the menu, opening hours, events, or loyalty points. Check table availability and make reservations. The assistant only answers from verified restaurant information, so customers always get accurate, reliable responses.
+NovaBite AI Assistant is an AI-powered assistant for NovaBite Restaurants that helps customers get answers and take action — all in one conversation.
+Customers can ask about the menu, check for allergens, find out opening hours, learn about events and packages, or ask anything covered in the restaurant's knowledge base. They can also check table availability, make a reservation, see today's specials, or look up their loyalty points — just by typing naturally.
+The assistant remembers what was said earlier in the conversation, so customers don't have to repeat themselves. It only answers from verified restaurant information, so it will never make something up or give wrong details about the menu or policies.
 
 ---
 
@@ -55,6 +57,8 @@ novabite_multi_agent/
 |-- data/
 |   |-- novabite_docs.txt      # Knowledge base: menu, hours, policies, events, loyalty
 |
+|-- app.py                      # Streamlit chat UI
+|-- evaluation.py              # LLM-as-a-judge RAG evaluation
 |-- .env.example
 |-- requirements.txt
 ```
@@ -88,13 +92,13 @@ LLM answer            - book_table
 ### Component Breakdown
 
 **intent_classifier.py**
-Sends the user message to the LLM with a prompt asking it to return one word: `rag`, `ops`, or `farewell`. This is more robust than keyword matching because it understands phrasing variations naturally.
+Sends the conversation history and the latest user message to the LLM and asks it to return one word: `rag`, `ops`, or `farewell`. Passing the history is important for short follow-up messages" that have no meaning without context. Explicit routing rules in the prompt handle edge cases.
 
 **orchestrator_agent.py**
 The central coordinator. It does not answer questions itself. It loads conversation history, calls the intent classifier, passes the message to the right agent, and saves the result back to memory.
 
 **agents/rag_agent.py**
-Retrieves the top relevant chunks from Chroma using MMR, injects them into a prompt as context, and asks the LLM to answer using only that context. If the context does not contain the answer, the LLM is instructed to say so.
+Before retrieving, rewrites vague follow-up messages into a self-contained search query using the conversation history. Then retrieves the top relevant chunks from Chroma using MMR, injects them as context, and asks the LLM to answer using only that context. If the context does not contain the answer, the LLM is instructed to say so.
 
 **agents/operations_agent.py**
 A LangGraph `create_react_agent` that has access to 4 tools. The LLM decides which tool to call, calls it, reads the result, and forms a response. This is the ReAct pattern (Reason + Act).
@@ -105,16 +109,13 @@ A LangGraph `create_react_agent` that has access to 4 tools. The LLM decides whi
 
 ### Document Ingestion Pipeline
 
+File: `rag/ingest.py`
 
 Steps:
-1. Load `menu.txt` using `TextLoader`
+1. Load `novabite_docs.txt` using `TextLoader`
 2. Split into chunks using `RecursiveCharacterTextSplitter`
 3. Embed each chunk using `text-embedding-3-small`
 4. Save all vectors to Chroma
-
-Ingestion runs automatically on first use. The retriever checks if Chroma is empty and calls `ingest()` if it is. You can also trigger it manually:
-
-
 
 ---
 
@@ -126,7 +127,7 @@ Why 500 characters? Each entry in the knowledge base (a menu item, a policy rule
 
 Why 50 character overlap? If a dish name ends one chunk and its allergen list starts the next, the overlap ensures the allergen chunk still carries the dish name as context.
 
-Why RecursiveCharacterTextSplitter? It splits different separators; on paragraph first, then line breaks, then spaces. This respects the natural structure of the document rather than cutting at arbitrary character positions.
+Why RecursiveCharacterTextSplitter? It splits on different separators; paragraph breaks first, then line breaks, then spaces. This respects the natural structure of the document rather than cutting at arbitrary character positions.
 
 ---
 
@@ -179,7 +180,6 @@ The LLM only sees the retrieved chunks as its information source. It cannot conf
 
 Prompt structure:
 
-
 ```
 You are a helpful assistant for NovaBite Restaurants.
 Answer the customer's question using ONLY the context below.
@@ -190,8 +190,6 @@ Chat history: {last N turns}
 Customer: {question}
 Answer:
 ```
-
----
 
 ## Tool Simulation Explanation
 
@@ -208,8 +206,7 @@ The tools simulate a real restaurant backend using in-memory Python dictionaries
 
 ### Why the @tool decorator?
 
-The `@tool` decorator wraps the function as a `StructuredTool` that the LangGraph (ReAct agent) can discover and call. The docstring is required — the agent reads it to understand what the tool does and when to use it.
-
+The `@tool` decorator wraps the function as a `StructuredTool` that the LangGraph ReAct agent can discover and call. The docstring is required — the agent reads it to understand what the tool does and when to use it.
 
 ---
 
@@ -219,9 +216,148 @@ Each session has its own `ChatMessageHistory` stored in a dict keyed by session 
 
 The RAG agent converts history to a plain string for the prompt. The operations agent passes the message list directly to the LangGraph agent.
 
-**Limitation:** Memory is in-process only and resets when the program restarts.
+**Limitation:** Memory is in-process only and resets when the program restarts. To persist across sessions, `ChatMessageHistory` can be swapped for `SQLChatMessageHistory` with a SQLite file and no other changes needed.
 
 ---
 
 ## Example Queries and Outputs
 
+```
+You:       Do you have vegan pasta?
+[Intent:   rag]
+Assistant: Yes, we have Vegan Green Pasta, which is spinach-based and includes roasted zucchini, bell peppers, mushrooms, and cashew cream sauce. It is 100% plant-based and has a gluten-free option available upon request. The price is 230 EGP.
+```
+
+```
+You:       Is the chicken grilled or fried?
+[Intent:   rag]
+Assistant: The chicken is grilled, not fried.
+```
+
+```
+You:       What are your opening hours on weekends?
+[Intent:   rag]
+Assistant: On weekends, NovaBite is open from 10:00 AM to 1:00 AM.
+```
+
+```
+You:       Do you host birthday events?”
+[Intent:   ops]
+Assistant: Yes, NovaBite offers private event hosting for birthday parties.
+```
+
+```
+You:       What’s included in the premium catering package?
+[Intent:   ops]
+Assistant: The premium catering package includes a custom 3-course menu, dedicated service staff, a dessert platter, and a beverage selection. The price starts from 850 EGP per person.
+```
+
+```
+You:       I want to book a table on 1/3
+[Intent:   ops]
+Assistant: Please provide the following details to complete your booking for a table on March 1st:
+
+Time of the booking
+Branch location
+Party size (default is 2 if not specified)
+```
+
+**Hallucination guard**
+```
+You:       do you serve sushi?
+[Intent:   rag]
+Assistant: I don't have that information, please contact the restaurant.
+```
+
+
+```
+You:       What is the special dish today?
+[Intent:   ops]  
+Assistant: Please provide the branch location so I can check today's special dish for you.
+You: Downtown
+[Intent:   ops]  
+Assistant: Today's specials at NovaBite Downtown are:
+
+Starter: Lobster Bisque - $16
+Main: Braised Lamb Shank - $38
+Dessert: Pistachio Panna Cotta - $12
+```
+
+---
+
+## Evaluation — LLM-as-a-Judge
+
+
+The evaluation scores the RAG system on 8 test questions using another LLM call as the judge. Each answer is scored on two criteria from 1 to 5:
+
+- **Faithfulness** — is the answer grounded in the retrieved context, or did the model make something up?
+- **Relevance** — does the answer actually address what the customer asked?
+
+The judge receives the question, the retrieved context, and the generated answer, then returns scores and a one-sentence reason for each.
+
+Results are printed to the terminal and automatically saved to a timestamped `.txt` file:
+
+```
+evaluation_results.txt
+```
+---
+
+## Streamlit UI
+
+File: `app.py`
+
+A simple chat interface built with Streamlit. Uses `st.chat_message` and `st.chat_input` for the native chat layout. Message history is stored in `st.session_state` so the UI stays consistent across reruns.
+
+Run:
+```bash
+streamlit run app.py
+```
+
+
+---
+
+## Setup and Running
+
+**1. Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**2. Configure environment variables**
+```bash
+cp .env.example .env
+```
+
+Edit `.env`:
+```
+OPENAI_API_KEY=sk-or-v1-...
+OPENROUTER_MODEL=gpt-4o-mini
+```
+
+**3. Run**
+```bash
+python app.py
+```
+
+Ingestion runs automatically on first use. To manually re-ingest after updating the knowledge base:
+```bash
+python rag/ingest.py
+```
+
+---
+
+## Assumptions Made
+
+1. **Single API key** — OpenRouter is used for both LLM completions and embeddings. No separate OpenAI key is required.
+
+2. **In-memory database** — Reservations, bookings, loyalty points, and specials are Python dictionaries. Data resets on restart. In production these would be real database tables.
+
+3. **In-memory session memory** — Conversation history resets on restart. A production system would use SQLChatMessageHistory or a Redis-backed store.
+
+4. **Single session** — The current setup uses one hardcoded session ID. A web server version would generate a unique ID per user connection.
+
+5. **English only** — Prompts and intent classification are designed for English input only.
+
+6. **Static knowledge base** — Menu and policy updates require editing `menu.txt` and re-running ingestion. A production system would have a live data source.
+
+7. **No authentication** — Loyalty lookups accept any user ID. A real system would verify the customer's identity before returning account data.

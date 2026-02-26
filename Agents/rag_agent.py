@@ -28,6 +28,7 @@ Rules:
 - If the customer asks about something that is clearly not a NovaBite product or service, confidently say we don't offer that and suggest what we do have instead.
 - Only say "I don't have that information, please contact the restaurant" if the question is about NovaBite specifically but the answer is genuinely missing from the context.
 - Never make up menu items, prices, hours, or policies that are not in the context.
+- When referencing prices, copy them exactly from the retrieved context.
 
 Context:
 {context}
@@ -43,6 +44,8 @@ Answer:
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
+def fix_prices(text: str) -> str:
+    return re.sub(r'`(\d+)', r'$\1', text)
 
 def run_rag_agent(question: str, chat_history: str = "") -> str:
     retriever = get_retriever()

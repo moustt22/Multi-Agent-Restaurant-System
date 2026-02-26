@@ -4,7 +4,6 @@ import sys
 sys.path.append(os.path.dirname(__file__))
 from config import llm
 
-
 prompt = ChatPromptTemplate.from_template("""
 You are a router for a restaurant assistant.
 Given the user message, reply with ONLY one word — the correct route:
@@ -15,11 +14,10 @@ Given the user message, reply with ONLY one word — the correct route:
 
 User message: {message}
 
-Reply with only one word (rag / ops / greeting / farewell):
+Reply with only one word (rag / ops / farewell):
 """)
 
 chain = prompt | llm
-
 
 def classify_intent(message: str) -> str:
     result = chain.invoke({"message": message})
@@ -27,5 +25,6 @@ def classify_intent(message: str) -> str:
 
     if intent not in ["rag", "ops", "greeting", "farewell"]:
         return "rag"
+
 
     return intent

@@ -54,7 +54,7 @@ novabite_multi_agent/
 |   |-- retriever.py           # Loads Chroma, auto-ingests if empty
 |
 |-- data/
-|   |-- novabite_docs.txt      # Knowledge base: menu, hours, policies, events, loyalty
+|   |-- menu.txt      # Knowledge base: menu, hours, policies, events, loyalty
 |
 |-- app.py                      # Streamlit chat UI
 |-- evaluation.py              # LLM-as-a-judge RAG evaluation
